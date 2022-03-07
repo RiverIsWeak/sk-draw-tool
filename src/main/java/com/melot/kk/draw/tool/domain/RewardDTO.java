@@ -27,6 +27,7 @@ public class RewardDTO implements Serializable {
 
     /**
      * 奖励类型
+     * @see com.melot.kk.draw.tool.constants.RewardTypeEnum
      */
     private Integer rewardType;
 
