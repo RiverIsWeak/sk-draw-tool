@@ -1,7 +1,5 @@
 package com.melot.kk.draw.tool;
 
-import com.melot.kk.draw.tool.utils.LiveTimeUtils;
-
 /**
  * Test.
  *
@@ -13,6 +11,5 @@ import com.melot.kk.draw.tool.utils.LiveTimeUtils;
  */
 public class Test {
     public static void main(String[] args) {
-        LiveTimeUtils.
     }
 }
