@@ -16,11 +16,6 @@ public class DrawDTO implements Serializable {
     private static final long serialVersionUID = -9105186493456278750L;
 
     /**
-     * 奖励等级配置list
-     */
-    private List<DrawLevelDTO> drawLevelList;
-
-    /**
      * 抽奖index
      */
     private Integer drawIndex;
@@ -29,6 +24,12 @@ public class DrawDTO implements Serializable {
      * 所需积分
      */
     private Integer needPoint;
+
+
+    /**
+     * 奖励等级配置list
+     */
+    private List<DrawLevelDTO> drawLevelList;
 
     @Override
     public String toString() {

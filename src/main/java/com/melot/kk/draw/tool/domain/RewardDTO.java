@@ -16,6 +16,13 @@ public class RewardDTO implements Serializable {
     private static final long serialVersionUID = 8573214263287921368L;
 
     /**
+     * 奖励类型
+     * @see com.melot.kk.draw.tool.constants.RewardTypeEnum
+     */
+    private Integer rewardType;
+
+
+    /**
      * 奖励对应资源ID
      */
     private Integer rewardId;
@@ -24,13 +31,6 @@ public class RewardDTO implements Serializable {
      * 奖励数量
      */
     private Integer rewardCount;
-
-    /**
-     * 奖励类型
-     * @see com.melot.kk.draw.tool.constants.RewardTypeEnum
-     */
-    private Integer rewardType;
-
     /**
      * 奖励描述
      */

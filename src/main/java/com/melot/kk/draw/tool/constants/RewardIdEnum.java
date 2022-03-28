@@ -23,4 +23,6 @@ public class RewardIdEnum {
     public static final int SHOW_TAG = -3;
 
     public static final int FOLLOW_CARD = -4;
+
+    public static final int VIRTUAL_ITEM = -5;
 }

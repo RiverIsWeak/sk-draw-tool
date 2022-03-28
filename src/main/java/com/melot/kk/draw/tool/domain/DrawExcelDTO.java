@@ -14,33 +14,58 @@ import java.io.Serializable;
 public class DrawExcelDTO implements Serializable {
     private static final long serialVersionUID = 8651382775464824825L;
 
-    private Integer needPoint;
+    private Integer point;
 
-    private Integer drawIndex;
+    private Integer index;
 
-    private Integer rewardLevel;
+    private Integer level;
 
     private Double odds;
 
-    private String reward;
+    private String rewardName;
+
+    private String rewardType;
+
+    private Integer count;
+
+    private Integer id;
 
     @Override
     public String toString() {
         return "DrawExcelDTO{" +
-                "needPoint=" + needPoint +
-                ", drawIndex=" + drawIndex +
-                ", rewardLevel=" + rewardLevel +
+                "point=" + point +
+                ", index=" + index +
+                ", level=" + level +
                 ", odds=" + odds +
-                ", reward='" + reward + '\'' +
+                ", rewardName='" + rewardName + '\'' +
+                ", rewardType=" + rewardType +
+                ", count=" + count +
+                ", id=" + id +
                 '}';
     }
 
-    public Integer getRewardLevel() {
-        return rewardLevel;
+    public Integer getPoint() {
+        return point;
     }
 
-    public void setRewardLevel(Integer rewardLevel) {
-        this.rewardLevel = rewardLevel;
+    public void setPoint(Integer point) {
+        this.point = point;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
     public Double getOdds() {
@@ -51,27 +76,35 @@ public class DrawExcelDTO implements Serializable {
         this.odds = odds;
     }
 
-    public String getReward() {
-        return reward;
+    public String getRewardName() {
+        return rewardName;
     }
 
-    public void setReward(String reward) {
-        this.reward = reward;
+    public void setRewardName(String rewardName) {
+        this.rewardName = rewardName;
     }
 
-    public Integer getNeedPoint() {
-        return needPoint;
+    public String getRewardType() {
+        return rewardType;
     }
 
-    public void setNeedPoint(Integer needPoint) {
-        this.needPoint = needPoint;
+    public void setRewardType(String rewardType) {
+        this.rewardType = rewardType;
     }
 
-    public Integer getDrawIndex() {
-        return drawIndex;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setDrawIndex(Integer drawIndex) {
-        this.drawIndex = drawIndex;
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
