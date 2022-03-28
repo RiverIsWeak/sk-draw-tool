@@ -5,13 +5,10 @@ import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import com.google.gson.Gson;
 import com.melot.kk.draw.tool.constants.ConfigException;
-import com.melot.kk.draw.tool.utils.ResourceUtils;
 import com.melot.kk.draw.tool.constants.RewardTypeEnumV2;
-import com.melot.kk.draw.tool.domain.DrawDTO;
-import com.melot.kk.draw.tool.domain.DrawExcelDTO;
-import com.melot.kk.draw.tool.domain.DrawLevelDTO;
-import com.melot.kk.draw.tool.domain.RewardDTO;
+import com.melot.kk.draw.tool.domain.*;
 import com.melot.kk.draw.tool.utils.EnumUtils;
+import com.melot.kk.draw.tool.utils.ResourceUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,43 +42,100 @@ public class ConfigMakeUtils {
 
     private static void createXml() {
         try {
-            List<DrawDTO> configResultList = new LinkedList<>();
+
 //        String path = String.format(DEFAULT_XML_PATH, EVENT_DESC);
             String path = "C:\\Users\\生如死劫\\Documents\\配置文件处理\\工作簿1.xlsx";
-            ExcelReader reader = ExcelUtil.getReader(path);
+            ExcelReader reader = ExcelUtil.getReader(path, 1);
 
+            List<ConfigExcelDTO> excelList = reader.readAll(ConfigExcelDTO.class);
 
-            List<DrawExcelDTO> excelList = reader.readAll(DrawExcelDTO.class);
-
-            int maxIndex = getMaxIndexByList(excelList);
-            for (int i = 1; i <= maxIndex; i++) {
-                int processIndex = i;
-                DrawDTO draw = new DrawDTO();
-
-
-                List<DrawExcelDTO> collect = excelList.stream().filter(excelDTO -> excelDTO.getIndex().equals(processIndex)).collect(Collectors.toList());
-                if (CollectionUtil.isEmpty(collect)) {
-                    continue;
-                }
-                draw.setDrawLevelList(getDrawLevelList(collect));
-                draw.setNeedPoint(collect.get(0).getPoint());
-                draw.setDrawIndex(i);
-                configResultList.add(draw);
+            if (excelList.get(0).getOdds() == null) {
+                showPointConfigListByExcel(excelList);
+            } else {
+                showDrawConfigListByExcel(excelList);
             }
-
-            System.out.println(new Gson().toJson(configResultList));
         } catch (ConfigException e) {
             e.printStackTrace();
         }
     }
 
-    private static List<DrawLevelDTO> getDrawLevelList(List<DrawExcelDTO> collect) throws ConfigException {
+    private static void showPointConfigListByExcel(List<ConfigExcelDTO> excelList) throws ConfigException {
+        List<PointDTO> configResultList = new LinkedList<>();
+        int maxIndex = getMaxIndexByList(excelList);
+        for (int i = 1; i <= maxIndex; i++) {
+            int processIndex = i;
+            PointDTO pointDTO = new PointDTO();
+
+
+            List<ConfigExcelDTO> collect = excelList.stream().filter(excelDTO -> excelDTO.getIndex().equals(processIndex)).collect(Collectors.toList());
+            if (CollectionUtil.isEmpty(collect)) {
+                continue;
+            }
+            pointDTO.setRewardList(getRewardList(collect));
+            pointDTO.setPoint(collect.get(0).getPoint());
+            pointDTO.setIndex(i);
+            configResultList.add(pointDTO);
+        }
+        System.out.println(new Gson().toJson(configResultList));
+    }
+
+    private static void showDrawConfigListByExcel(List<ConfigExcelDTO> excelList) throws ConfigException {
+        List<DrawDTO> configResultList = new LinkedList<>();
+        int maxIndex = getMaxIndexByList(excelList);
+        for (int i = 1; i <= maxIndex; i++) {
+            int processIndex = i;
+            DrawDTO draw = new DrawDTO();
+            List<ConfigExcelDTO> collect = excelList.stream().filter(excelDTO -> excelDTO.getIndex().equals(processIndex)).collect(Collectors.toList());
+            if (CollectionUtil.isEmpty(collect)) {
+                continue;
+            }
+            draw.setDrawLevelList(getDrawLevelList(collect));
+            draw.setNeedPoint(collect.get(0).getPoint());
+            draw.setDrawIndex(i);
+            configResultList.add(draw);
+        }
+        System.out.println(new Gson().toJson(configResultList));
+    }
+
+
+    private static List<RewardDTO> getRewardList(List<ConfigExcelDTO> collect) {
+        List<RewardDTO> result = new ArrayList<>();
+        collect.forEach(excel -> processForReward(result, excel));
+        return result;
+    }
+
+    private static void processForReward(List<RewardDTO> result, ConfigExcelDTO excel) {
+        RewardDTO rewardDTO = new RewardDTO();
+        rewardDTO.setRewardCount(excel.getCount());
+        RewardTypeEnumV2 rewardType = getTypeByStr(excel.getRewardType());
+        String rewardName = excel.getRewardName();
+        if (rewardType.equals(RewardTypeEnumV2.NO_REWARD)) {
+            rewardDTO.setDesc(RewardTypeEnumV2.NO_REWARD.getDesc());
+        } else if (rewardType.equals(RewardTypeEnumV2.FOLLOW_CARD)) {
+            rewardDTO.setDesc(RewardTypeEnumV2.FOLLOW_CARD.getDesc());
+        } else if (rewardType.equals(RewardTypeEnumV2.SHOW_TAG)) {
+            rewardDTO.setDesc(RewardTypeEnumV2.SHOW_TAG.getDesc());
+        } else if (rewardType.equals(RewardTypeEnumV2.BEAN)) {
+            rewardDTO.setDesc(RewardTypeEnumV2.BEAN.getDesc());
+        } else if (rewardType.equals(RewardTypeEnumV2.GEM)) {
+            rewardDTO.setDesc(RewardTypeEnumV2.GEM.getDesc());
+        } else {
+            rewardDTO.setDesc(rewardName);
+        }
+
+        rewardDTO.setRewardType(rewardType.getType());
+        rewardDTO.setRewardId(getIdByConfig(excel.getId(), rewardType));
+        result.add(rewardDTO);
+    }
+
+
+    private static List<DrawLevelDTO> getDrawLevelList(List<ConfigExcelDTO> collect) {
         int maxLevel = getMaxLevelByList(collect);
         List<DrawLevelDTO> result = new ArrayList<>();
         for (int i = 1; i <= maxLevel; i++) {
             int processLevel = i;
             DrawLevelDTO levelDTO = new DrawLevelDTO();
-            List<DrawExcelDTO> levelList = collect.stream().filter(excelDTO -> excelDTO.getLevel().equals(processLevel)).collect(Collectors.toList());
+            List<ConfigExcelDTO> levelList = collect.stream().filter(excelDTO -> excelDTO.getLevel().equals(processLevel)).collect(Collectors.toList());
             if (CollectionUtil.isEmpty(levelList)) {
                 continue;
             }
@@ -94,23 +148,9 @@ public class ConfigMakeUtils {
         return result;
     }
 
-    private static List<RewardDTO> getRewardDTOList(List<DrawExcelDTO> levelList) {
+    private static List<RewardDTO> getRewardDTOList(List<ConfigExcelDTO> levelList) {
         List<RewardDTO> result = new ArrayList<>();
-        for (DrawExcelDTO drawExcelDTO : levelList) {
-            RewardDTO rewardDTO = new RewardDTO();
-            rewardDTO.setRewardCount(drawExcelDTO.getCount());
-            RewardTypeEnumV2 rewardType = getTypeByStr(drawExcelDTO.getRewardType());
-            String rewardName = drawExcelDTO.getRewardName();
-            if (rewardType.equals(RewardTypeEnumV2.NO_REWARD)) {
-                rewardDTO.setDesc(RewardTypeEnumV2.NO_REWARD.getDesc());
-            } else {
-                rewardDTO.setDesc(rewardName);
-            }
-
-            rewardDTO.setRewardType(rewardType.getType());
-            rewardDTO.setRewardId(getIdByConfig(drawExcelDTO.getId(), rewardType));
-            result.add(rewardDTO);
-        }
+        levelList.forEach(excel -> processForReward(result, excel));
         return result;
     }
 
@@ -144,21 +184,21 @@ public class ConfigMakeUtils {
         return result;
     }
 
-    private static int getMaxIndexByList(List<DrawExcelDTO> excelList) {
+    private static int getMaxIndexByList(List<ConfigExcelDTO> excelList) {
         int defaultIndex = 0;
-        for (DrawExcelDTO drawExcelDTO : excelList) {
-            if (drawExcelDTO.getIndex() > defaultIndex) {
-                defaultIndex = drawExcelDTO.getIndex();
+        for (ConfigExcelDTO configExcelDTO : excelList) {
+            if (configExcelDTO.getIndex() > defaultIndex) {
+                defaultIndex = configExcelDTO.getIndex();
             }
         }
         return defaultIndex;
     }
 
-    private static int getMaxLevelByList(List<DrawExcelDTO> collect) {
+    private static int getMaxLevelByList(List<ConfigExcelDTO> collect) {
         int maxLevel = 0;
-        for (DrawExcelDTO drawExcelDTO : collect) {
-            if (drawExcelDTO.getLevel() > maxLevel) {
-                maxLevel = drawExcelDTO.getLevel();
+        for (ConfigExcelDTO configExcelDTO : collect) {
+            if (configExcelDTO.getLevel() > maxLevel) {
+                maxLevel = configExcelDTO.getLevel();
             }
         }
         return maxLevel;

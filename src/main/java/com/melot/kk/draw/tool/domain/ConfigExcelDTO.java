@@ -3,15 +3,15 @@ package com.melot.kk.draw.tool.domain;
 import java.io.Serializable;
 
 /**
- * DrawExcelDTO.
+ * ConfigExcelDTO.
  *
  * @author junjian.lan@melot.cn
  * description:
- * path:com.melot.kk.draw.tool.domain-DrawExcelDTO
+ * path:com.melot.kk.draw.tool.domain-ConfigExcelDTO
  * date: 2022-3-9 16:50
  * version: 1.0.0
  */
-public class DrawExcelDTO implements Serializable {
+public class ConfigExcelDTO implements Serializable {
     private static final long serialVersionUID = 8651382775464824825L;
 
     private Integer point;
@@ -32,7 +32,7 @@ public class DrawExcelDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "DrawExcelDTO{" +
+        return "ConfigExcelDTO{" +
                 "point=" + point +
                 ", index=" + index +
                 ", level=" + level +
