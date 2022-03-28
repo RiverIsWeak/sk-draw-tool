@@ -1,6 +1,7 @@
 package com.melot.kk.draw.tool.config;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import com.google.gson.Gson;
@@ -12,6 +13,7 @@ import com.melot.kk.draw.tool.utils.ResourceUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,6 +44,8 @@ public class ConfigMakeUtils {
 
     private static void createXml() {
         try {
+            SimpleDateFormat simpleDateFormat = DateUtil.newSimpleFormat("20212814");
+            System.out.println(simpleDateFormat);
 
 //        String path = String.format(DEFAULT_XML_PATH, EVENT_DESC);
             String path = "C:\\Users\\生如死劫\\Documents\\配置文件处理\\工作簿1.xlsx";
