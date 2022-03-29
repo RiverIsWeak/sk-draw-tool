@@ -55,7 +55,7 @@ public class ConfigPushUtils {
 
     private static void publishConfigToNacos() {
         try {
-            // 初始化配置服务，控制台通过示例代码自动获取下面参数
+            // 初始化配置服务，控制台通过示例代码自动获取下面参数aaa
             String serverAddr = "nacos1.kktv2.com:8848,nacos2.kktv2.com:8848,nacos3.kktv2.com:8848";
             String dataId = "test.push";
             String group = "test.push";
