@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * ResourceUtils.
- *
+ * 为测试服随机配置准备的枚举工具类
  * @author junjian.lan@melot.cn
  * description:
  * path:com.melot.kk.draw.tool.constants-ResourceUtils
@@ -19,8 +19,8 @@ import java.util.List;
 public class ResourceUtils {
 
     private static final List<Integer> ENTRANCE_LIST = Arrays.asList(1594,1593,1592,1591,1590,1589,1588,1587,1586,1585,1584,1583);
-    private static final List<Integer> AVATAR_LIST = Arrays.asList(32,31,30,29,28,27,16,15,14,13,12,11,10,9,8,1);
-    private static final List<Integer> THEME_LIST = Arrays.asList(31,30,29,28,27,26,25,24,23,22,17,16,15,14,13,12,11,10,9,8);
+    private static final List<Integer> AVATAR_LIST = Arrays.asList(32,31,30,29,28,27);
+    private static final List<Integer> THEME_LIST = Arrays.asList(31,30,29,28,27,26,25,24,23,22);
     private static final List<Integer> GIFT_LIST = Arrays.asList(41002860, 41002842);
     private static final List<Integer> BADGE_LIST = Arrays.asList(10055,902,10047,10066,10048,10046,1087,900,9001,1088,1054,1070,1051,9000,1072,1061,1055,1069,1057,1056,1058,1066,1067,1068,9600,1052,9581,9002,9003,901,10020,10018,10009,1077,1078,10008);
 
