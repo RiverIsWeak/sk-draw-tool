@@ -105,38 +105,38 @@ public class DrawUtils {
         //将所有奖励塞入待处理list
         levelList.forEach(list -> rewardTogetherList.addAll(list.getRewardList()));
 
-        Map<Integer, RewardDTO> resultHashMap = new HashMap<>(100);
+        Map<String, RewardDTO> resultHashMap = new HashMap<>(100);
         List<RewardDTO> result;
         for (RewardDTO rewardConfig : rewardTogetherList) {
             //滤过未中奖结果
-            if (rewardConfig.getRewardType().equals(0) || "no reward".equals(rewardConfig.getDesc())) {
+            String desc = rewardConfig.getDesc();
+            if (rewardConfig.getRewardType().equals(RewardTypeEnum.NO_REWARD)) {
                 continue;
             }
 
             int rewardId = rewardConfig.getRewardId();
             int rewardCount = rewardConfig.getRewardCount();
-            RewardDTO cacheDTO = resultHashMap.get(rewardId);
+            RewardDTO cacheDTO = resultHashMap.get(desc);
             if (cacheDTO != null) {
                 cacheDTO.setRewardCount(cacheDTO.getRewardCount() + rewardCount);
-                resultHashMap.put(rewardId, cacheDTO);
+                resultHashMap.put(desc, cacheDTO);
             } else {
                 RewardDTO newInsert = new RewardDTO();
                 newInsert.setRewardId(rewardId);
                 newInsert.setRewardType(rewardConfig.getRewardType());
                 newInsert.setRewardCount(rewardCount);
-                newInsert.setDesc(rewardConfig.getDesc());
+                newInsert.setDesc(desc);
 
                 if (rewardConfig.getExValue() != null) {
                     newInsert.setExValue(rewardConfig.getExValue());
                 }
-                resultHashMap.put(rewardId, newInsert);
+                resultHashMap.put(desc, newInsert);
             }
         }
 
         result = new ArrayList<>(resultHashMap.values());
         return result;
     }
-
 
     /**
      * 获取消息中奖励消息内容
