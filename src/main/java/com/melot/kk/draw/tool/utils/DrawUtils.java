@@ -53,7 +53,7 @@ public class DrawUtils {
      * 根据配置出奖
      *
      * @param configStr 配置的json string
-     * @param playCount 游玩次数  
+     * @param playCount 游玩次数
      * @return 全结果list
      */
     public static List<DrawLevelDTO> drawForConfig(String configStr, int playCount) {

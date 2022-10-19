@@ -68,6 +68,24 @@ public class RoomMsgUtils {
         sendMsgToRoom(1, 0, 0, 0, 1, msg.toString(), runWayUrl);
     }
 
+    public void sendColorRoomMsg(String content, String eventUrl, String backgroundColor, String fontColor, String runWayUrl) {
+        JsonObject msgJson = new JsonObject();
+        msgJson.addProperty("MsgTag", 10010368);
+        msgJson.addProperty("type", 2);
+        JsonArray contents = new JsonArray();
+        JsonObject j = new JsonObject();
+
+        j.addProperty("content", content);
+        j.addProperty("type", 4);
+        j.addProperty("mobileUrl", eventUrl);
+        j.addProperty("backgroundColor", backgroundColor);
+        j.addProperty("color", fontColor);
+        contents.add(j);
+        msgJson.add("contents", contents);
+
+        sendMsgToRoom(1, 0, 0, 0, 1, msgJson.toString(), runWayUrl);
+    }
+
     private static void sendMsgToRoom(int type, int roomId, int userId, int platform, int appId, String msg, String runWayUrl) {
         HttpURLConnection urlCon;
         try {
